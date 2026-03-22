@@ -14,7 +14,7 @@ function getUserId(req) {
 function callAI(messages, system, apiKey) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
-      model: "deepseek/deepseek-chat-v3-0324",
+      model: "google/gemma-3-27b-it",
       max_tokens: 4096,
       messages: [{ role: "system", content: system }, ...messages],
     });
