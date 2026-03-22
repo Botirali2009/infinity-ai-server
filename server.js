@@ -40,10 +40,15 @@ function callAI(messages, system, apiKey) {
       res.on("end", () => {
         try {
           const json = JSON.parse(data);
-          if (json.error) reject(new Error(json.error.message));
+          if (json.error) {
+            console.error("OpenRouter xato:", JSON.stringify(json.error));
+            reject(new Error(json.error.message || JSON.stringify(json.error)));
+          }
           else resolve(json.choices[0].message.content);
-        } catch(e) { reject(new Error("Xato: " + data.slice(0, 200))); }
-      });
+        } catch(e) {
+            console.error("Server xato:", e.message);
+            res.writeHead(500);
+            res.end(JSON.stringify({ error: e.message }));
     });
     req.on("error", reject);
     req.write(body);
