@@ -264,7 +264,9 @@ const server = http.createServer(async (req, res) => {
   res.end(JSON.stringify({ error: "Not found" }));
 });
 
-testRedis().then(() => {
+testRedis().catch(e => {
+  console.log("Redis init error (continuing):", e.message);
+}).finally(() => {
   server.listen(PORT, () => {
     console.log(`✅ infinity-ai server v2.0 running on port ${PORT}`);
     console.log(`   Redis: ${redisOk ? "connected ✅" : "memory mode ⚠️"}`);
